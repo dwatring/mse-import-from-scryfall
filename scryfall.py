@@ -4,7 +4,51 @@ import json
 from types import SimpleNamespace
 
 
-input = """stomping ground
+input = """underrealm lich
+trackers instincts
+doomed artisan
+changeling outcast
+ingenious infiltrator
+cabal therapist
+ishkanah grafwidow
+bygone bishop
+glare of subdual
+soul shatter
+vorinclex monstrous raider
+casualties of war
+punishing fire
+ethereal forager
+Reidane, God of the Worthy
+clarion spirit
+tombstalker
+mire triton
+icehide golem
+defile
+elspeth conquers death
+eliminate
+ice fang coatl
+avalanche riders
+mazemind tome
+desolate lighthouse
+nephalia drownyard
+anguished unmaking
+irencrag pyromancer
+skyknight vanguard
+grim flayer
+Stoneforge Mystic
+Thalia Guardian of Thraben
+Councils Judgment
+Glen Elendra Archmage
+Daze
+Ponder
+marsh flats
+Goblin Guide
+misty rainforest
+overgrown tomb
+polluted delta
+scalding tarn
+sacred foundry
+stomping ground
 steam vents
 temple garden
 verdant catacombs
@@ -19,7 +63,60 @@ flooded strand
 creeping tar pit
 blood crypt
 bloodstained mire
-breeding pool"""
+breeding pool
+arid mesa
+batterskull
+sword of fire and ice
+sword of feast and famine
+crucible of worlds
+Uro Titan of Natures Wrath
+thief of sanity
+Dragonlord Atarka
+needleverge pathway
+Blightstep Pathway
+Sprite Dragon
+pack rat
+Aurelia Exemplar of Justice
+Meren of Clan Nel Toth
+Dream Trawler
+Fallen Shinobi
+Dig Through Time
+Birthing Pod
+Hydroid Krasis
+Falkenrath Aristocrat
+The Scarab God
+Boros Charm
+Judith the Scourge Diva
+Spell Queller
+Edric Spymaster of Trest
+Maelstrom Pulse
+Baleful Strix
+Assassins Trophy
+Vindicate
+Bloodbraid Elf
+Kolaghans Command
+Trostani Discordant
+Teferi, Hero of Dominaria
+Ashiok, Nightmare Weaver
+Daretti, Ingenious Iconoclast
+Wrenn and Six
+Sorin, Lord of Innistrad
+Oko, Thief of Crowns
+Dack Fayden
+Gideon, Ally of Zendikar
+Elspeth, Sun's Champion
+Tezzeret, Artifice Master
+Jace, the Mind Sculptor
+Jace, Wielder of Mysteries
+Liliana of the Veil
+Liliana, the Last Hope
+Chandra, Flamecaller
+Daretti, Scrap Savant
+Chandra, Torch of Defiance
+Nissa, Voice of Zendikar
+Garruk Relentless
+Garruk Wildspeaker
+Nissa, Who Shakes the World"""
 
 def getColors(inputs, colorList): 
   if inputs.find("W") != -1:
@@ -127,7 +224,7 @@ f.write(initialWrite)
 for card in cards:
   url = "https://api.scryfall.com/cards/named?exact={card}".format(card=card)
   response = requests.get(url)
-  text = response.text.replace('\u2014', "").replace('\u2022', "")
+  text = response.text.replace('\u2014', "").replace('\u2022', "").replace('\u2212', "-")
   formatted = json.loads(text, object_hook=lambda d: SimpleNamespace(**d))
   if  hasattr(formatted, 'card_faces'):
     printToSet(formatted.card_faces[0])
