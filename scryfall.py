@@ -42,8 +42,6 @@ def printToSet(formatted):
 
   _flavorText = formatted.flavor_text.replace("\n", "\n\t\t") if hasattr(formatted, 'flavor_text') else ''
   flavorText = "\n\tflavor text:\n\t\t<i-flavor>{_flavorText}</i-flavor>".format(_flavorText=_flavorText) if _flavorText != '' else ''
-  print(flavorText)
-
   splitType = formatted.type_line.split("  ")
 
   land = ''
