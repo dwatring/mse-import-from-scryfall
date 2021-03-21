@@ -21,6 +21,18 @@ blood crypt
 bloodstained mire
 breeding pool"""
 
+def getColors(inputs, colorList): 
+  if inputs.find("W") != -1:
+    colorList.append('white')
+  if inputs.find("G") != -1:
+    colorList.append('green')
+  if inputs.find("B") != -1:
+    colorList.append('black')
+  if inputs.find("R") != -1:
+    colorList.append('red')
+  if inputs.find("U") != -1:
+    colorList.append('blue')
+
 def printToSet(formatted):
   name = formatted.name
   print(name)
@@ -34,12 +46,14 @@ def printToSet(formatted):
   splitType = formatted.type_line.split("  ")
 
   land = ''
+  isLand = False
   artifact = ''
   superType = splitType[0]
-  if superType == 'Basic Land' or superType == 'Land' or superType == 'Legendary Land':
+  if superType.find('Land') != -1:
     land = 'land'
-  if superType == 'Basic Land' or superType == 'Land' or superType == 'Legendary Land':
-    land = 'land'
+    isLand = True
+  if superType.find('Artifact') != -1:
+    artifact = 'artifact'
   
   _subType = splitType[1] if len(splitType) == 2 else ''
   subType = "\n\tsub type: <word-list-race>{_subType}</word-list-race>".format(_subType=_subType) if _subType != '' else ''
@@ -52,24 +66,19 @@ def printToSet(formatted):
 
   artist = formatted.artist.encode('ASCII', "ignore").decode() if hasattr(formatted, 'artist') else ''
 
+  producedMana = ''.join([str(elem) for elem in formatted.produced_mana])  if hasattr(formatted, 'produced_mana') else ''
   hybrid = ''
   colorsList = []
-  if castingCost.find("W") != -1:
-    colorsList.append('white')
-  if castingCost.find("G") != -1:
-    colorsList.append('green')
-  if castingCost.find("B") != -1:
-    colorsList.append('black')
-  if castingCost.find("R") != -1:
-    colorsList.append('red')
-  if castingCost.find("U") != -1:
-    colorsList.append('blue')
+  producedColorsList = []
+  getColors(castingCost, colorsList)
+  if isLand:
+    getColors(producedMana, producedColorsList)
+    if len(producedColorsList) > 0:
+      hybrid = ', horizontal'
+      land = 'land, '
   if len(colorsList) > 1: 
     hybrid = ', hybrid, horizontal'
-  if len(colorsList) == 0: 
-    artifact = 'artifact'
-
-  colors = listToStr = ', '.join(map(str, colorsList)) 
+  colors = ', '.join(map(str, producedColorsList if isLand else colorsList))
   endCode = '\n' if name != cards[len(cards)-1] else ''
   f.write(
 """card:
